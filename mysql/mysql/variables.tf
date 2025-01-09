@@ -47,12 +47,12 @@ variable "rds_username" {
   default     = "tushar"
 }
 
-variable "rds_password" {
-  description = "The password for the RDS instance."
-  type        = string
-  sensitive   = true
-  default     = "password"
-}
+#variable "rds_password" {
+ # description = "The password for the RDS instance."
+ # type        = string
+ # sensitive   = true
+ # default     = "password"
+#}
 
 
 variable "rds_publicly_accessible" {
