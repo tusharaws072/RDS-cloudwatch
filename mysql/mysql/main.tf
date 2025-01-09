@@ -34,9 +34,9 @@ module "rds" {
   allocated_storage       = var.rds_allocated_storage
   db_name                 = var.rds_db_name
   username                = var.rds_username
-  password                = var.rds_password
+#  password                = var.rds_password
   backup_retention_period = 7
-
+ manage_master_user_password = true 
   publicly_accessible = var.rds_publicly_accessible
   skip_final_snapshot = var.rds_skip_final_snapshot
   family              = "mysql8.0"
