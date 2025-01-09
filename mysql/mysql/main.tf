@@ -18,10 +18,7 @@ resource "aws_iam_role" "rds_monitoring" {
 resource "aws_iam_role_policy_attachment" "rds_monitoring_policy" {
   role       = aws_iam_role.rds_monitoring.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
-
 }
-
-
 
 module "rds" {
   source     = "terraform-aws-modules/rds/aws"
@@ -34,25 +31,16 @@ module "rds" {
   allocated_storage       = var.rds_allocated_storage
   db_name                 = var.rds_db_name
   username                = var.rds_username
-#  password                = var.rds_password
+  master_password         = aws_secretsmanager_secret.rds_master_password.secret_string  # Reference the secret
   backup_retention_period = 7
- manage_master_user_password = true 
-  publicly_accessible = var.rds_publicly_accessible
-  skip_final_snapshot = var.rds_skip_final_snapshot
-  family              = "mysql8.0"
+  manage_master_user_password = false  # Disable local password management
+  publicly_accessible     = var.rds_publicly_accessible
+  skip_final_snapshot     = var.rds_skip_final_snapshot
+  family                  = "mysql8.0"
 
-  monitoring_role_arn = aws_iam_role.rds_monitoring.arn # Link the IAM role to the RDS module
+  monitoring_role_arn     = aws_iam_role.rds_monitoring.arn  # Link the IAM role to the RDS module
 
   tags = {
     Name = "my-mysql-db"
   }
 }
-
-
-
-
-
-
-
-
-
